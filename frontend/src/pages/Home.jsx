@@ -4,14 +4,16 @@ import { motion } from "framer-motion";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import ProductCard from "../component/ProductCard";
-
+import Spinner from "../component/Spinner";
 const Home = () => {
   const [productsByCategory, setProductsByCategory] = useState([]);
+  const [loading, setLoading]=useState(false)
 
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
+        setLoading(true)
         const res = await axios.get("http://localhost:8080/api/v1/product/products/bycategory");
         
         // Sort the products by category _id
@@ -23,13 +25,18 @@ const Home = () => {
   
         // Assign the sorted products to the state
         setProductsByCategory(sortedProducts);
+        setLoading(false)
       } catch (error) {
         console.error("Error fetching products by category:", error);
+        setLoading(false)
       }
     };
     
     fetchProducts();
   }, []);
+ if(loading){
+  return <Spinner/>
+ } 
 
   return (
     <Layout>

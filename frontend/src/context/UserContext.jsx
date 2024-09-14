@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
+import Spinner from "../component/Spinner";
 
 // Create AuthContext
 const AuthContext = createContext(null);
@@ -32,7 +33,7 @@ const AuthProvider = ({ children }) => {
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Spinner/>;
   }
 
   return (
